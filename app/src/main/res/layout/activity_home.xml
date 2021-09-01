@@ -26,6 +26,27 @@
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
+            <ImageView
+                android:id="@+id/ivLike"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="5dp"
+                android:padding="5dp"
+                android:src="@drawable/like" />
+
+            <ImageView
+                android:id="@+id/ivLanguage"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="5dp"
+                android:layout_toStartOf="@+id/ivLike"
+                android:padding="5dp"
+                android:src="@drawable/language" />
+
+
         </RelativeLayout>
 
     </RelativeLayout>
@@ -42,35 +63,52 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/relativeSlider"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/drawable_new_grey_round_5_round">
+                android:layout_marginTop="20dp">
 
-                <ImageView
-                    android:id="@+id/ivSearch"
-                    android:layout_width="45dp"
+                <Spinner
+                    android:id="@+id/spCategories"
+                    android:layout_width="130dp"
                     android:layout_height="45dp"
-                    android:layout_centerVertical="true"
-                    android:paddingStart="10dp"
-                    android:paddingTop="15dp"
-                    android:paddingEnd="10dp"
-                    android:paddingBottom="15dp"
-                    android:src="@drawable/search" />
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/drawable_new_grey_round_5_round" />
 
-                <EditText
-                    android:id="@+id/etSearch"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_toEndOf="@+id/ivSearch"
-                    android:background="@null"
-                    android:gravity="center_vertical"
-                    android:hint="@string/searchSpecificTopic"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/darkGrey"
-                    android:textSize="14sp" />
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@+id/spCategories"
+                    android:background="@drawable/drawable_new_grey_round_5_round">
 
+                    <ImageView
+                        android:id="@+id/ivSearch"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_centerVertical="true"
+                        android:paddingStart="10dp"
+                        android:paddingTop="15dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="15dp"
+                        android:src="@drawable/search" />
+
+                    <EditText
+                        android:id="@+id/etSearch"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_toEndOf="@+id/ivSearch"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:hint="@string/searchSpecificTopic"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/darkGrey"
+                        android:textSize="14sp" />
+
+
+                </RelativeLayout>
 
             </RelativeLayout>
 
@@ -127,16 +165,31 @@
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
+
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvHome"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp" />
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvHome"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true" />
+
+            </RelativeLayout>
 
 
         </LinearLayout>

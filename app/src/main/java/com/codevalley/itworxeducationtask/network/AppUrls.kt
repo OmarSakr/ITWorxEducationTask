@@ -2,6 +2,6 @@ package com.codevalley.itworxeducationtask.network
 
 class AppUrls {
     companion object {
-        const val countries = "countries"
+        const val topHeadlines = "top-headlines"
     }
 }

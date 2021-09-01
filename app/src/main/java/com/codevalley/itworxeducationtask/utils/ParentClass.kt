@@ -69,7 +69,7 @@ open class ParentClass : AppCompatActivity() {
     }
 
 
-    private fun storeLang(ln: String?, context: Context) {
+    fun storeLang(ln: String?, context: Context) {
         val settings = context.getSharedPreferences(
             "language",
             0
