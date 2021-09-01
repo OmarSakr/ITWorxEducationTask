@@ -1,9 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".main.home.view.HomeActivity">
+    <!--relativeToolbar-->
+    <RelativeLayout
+        android:id="@+id/relativeToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@drawable/drawble_app_color_with_light_shadow">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:text="@string/home"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/relativeToolbar"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/drawable_new_grey_round_5_round">
+
+                <ImageView
+                    android:id="@+id/ivSearch"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_centerVertical="true"
+                    android:paddingStart="10dp"
+                    android:paddingTop="15dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="15dp"
+                    android:src="@drawable/search" />
+
+                <EditText
+                    android:id="@+id/etSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toEndOf="@+id/ivSearch"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="@string/searchSpecificTopic"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/darkGrey"
+                    android:textSize="14sp" />
+
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:orientation="horizontal"
+                android:weightSum="3.08">
+
+                <TextView
+                    android:id="@+id/tvFirstCategory"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/drawable_new_grey_round_5_round"
+                    android:gravity="center_vertical"
+                    android:padding="10sp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".04" />
+
+                <TextView
+                    android:id="@+id/tvSecondCategory"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/drawable_new_grey_round_5_round"
+                    android:gravity="center_vertical"
+                    android:padding="10sp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".04" />
+
+                <TextView
+                    android:id="@+id/tvThirdCategory"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/drawable_new_grey_round_5_round"
+                    android:gravity="center_vertical"
+                    android:padding="10sp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvHome"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp" />
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>

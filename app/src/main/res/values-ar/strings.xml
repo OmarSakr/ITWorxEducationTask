@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ITWorxEducationTask</string>
+    <string name="chooseYourSettings">إختر إعداداتك</string>
+    <string name="chooseYourCountry">إختر البلد</string>
+    <string name="chooseYourCategories">إختر الأقسام</string>
+    <string name="chooseThreeCatgories">( إختر ثلاثة اقسام )</string>
+    <string name="send">إرسال</string>
+    <string name="home">الرئيسية</string>
+    <string name="searchSpecificTopic">ابحث عن موضوع</string>
+</resources>
