@@ -3,7 +3,6 @@ package com.codevalley.itworxeducationtask.splashAndOnBoarding.onBoarding.view
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
@@ -141,7 +140,7 @@ class OnBoardingActivity : ParentClass() {
         countriesListAdapter.setDropDownViewResource(R.layout.text_spinner)
 
         // attaching data adapter to spinner
-        binding.spCountries.setAdapter(countriesListAdapter)
+        binding.spCountries.adapter = countriesListAdapter
         binding.spCountries.onItemSelectedListener = object :
             AdapterView.OnItemSelectedListener {
             override fun onItemSelected(

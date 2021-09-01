@@ -9,4 +9,5 @@
     <string name="home">الرئيسية</string>
     <string name="searchSpecificTopic">ابحث عن موضوع</string>
     <string name="addToFavorite">اضف للمفضلة</string>
+    <string name="searchResults">نتائج البحث</string>
 </resources>

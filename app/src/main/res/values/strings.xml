@@ -9,4 +9,5 @@
     <string name="home">Home</string>
     <string name="searchSpecificTopic">Search specific topic</string>
     <string name="addToFavorite">Add to favorite</string>
+    <string name="searchResults">Search results</string>
 </resources>

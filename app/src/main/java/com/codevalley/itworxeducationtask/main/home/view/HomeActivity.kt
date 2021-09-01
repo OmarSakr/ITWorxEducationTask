@@ -1,18 +1,27 @@
 package com.codevalley.itworxeducationtask.main.home.view
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
+import android.text.TextUtils
 import android.view.View
-import android.widget.Toast
+import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.codevalley.itworxeducationtask.R
 import com.codevalley.itworxeducationtask.databinding.ActivityHomeBinding
 import com.codevalley.itworxeducationtask.main.home.adapter.HomeAdapter
 import com.codevalley.itworxeducationtask.main.home.viewModel.HomeViewModel
+import com.codevalley.itworxeducationtask.main.searchResults.view.SearchResultsActivity
+import com.codevalley.itworxeducationtask.splashAndOnBoarding.onBoarding.repository.OnBoardingRepository
+import com.codevalley.itworxeducationtask.splashAndOnBoarding.onBoarding.viewModel.OnBoardingViewModel
+import com.codevalley.itworxeducationtask.splashAndOnBoarding.onBoarding.viewModel.OnBoardingViewModelFactory
 import com.codevalley.itworxeducationtask.splashAndOnBoarding.splash.view.SplashActivity
 import com.codevalley.itworxeducationtask.utils.ParentClass
 import kotlinx.coroutines.flow.collectLatest
@@ -21,7 +30,11 @@ class HomeActivity : ParentClass() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var homeAdapter: HomeAdapter
-    var called = false
+    private var called = false
+    private var categoryName = ""
+    private lateinit var onBoardingViewModel: OnBoardingViewModel
+    private lateinit var onBoardingRepository: OnBoardingRepository
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,16 +78,30 @@ class HomeActivity : ParentClass() {
 
         }
         binding.ivSearch.setOnClickListener {
-
+            if (TextUtils.isEmpty(binding.etSearch.text.toString())) {
+                binding.etSearch.error =
+                    this@HomeActivity.getString(R.string.searchSpecificTopic)
+            } else {
+                val intent = Intent(this@HomeActivity, SearchResultsActivity::class.java)
+                intent.putExtra("searchWord", binding.etSearch.text.toString())
+                intent.putExtra("category", categoryName)
+                startActivity(intent)
+            }
         }
 
     }
 
     private fun initUi() {
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        onBoardingRepository = OnBoardingRepository()
+        onBoardingViewModel = ViewModelProvider(
+            this, OnBoardingViewModelFactory(onBoardingRepository)
+        ).get(OnBoardingViewModel::class.java)
+        onBoardingViewModel.getCategories()
+        fillCategories()
         getTopHeadlines(sharedPrefManager!!.getUserDate().firstCategory)
         initRecycler()
-        checkLoadingAndErrorState()
+        checkLoadingState()
         initializeCategories()
     }
 
@@ -106,10 +133,8 @@ class HomeActivity : ParentClass() {
         binding.tvThirdCategory.text = sharedPrefManager?.getUserDate()?.thirdCategory
     }
 
-    private fun checkLoadingAndErrorState() {
+    private fun checkLoadingState() {
         homeAdapter.addLoadStateListener { loadState ->
-
-            Log.e("loadState.refresh", loadState.refresh.toString());
             if (loadState.refresh is LoadState.Loading) {
                 binding.progressBar.visibility = View.VISIBLE
                 called = true
@@ -117,21 +142,66 @@ class HomeActivity : ParentClass() {
                 if (called) {
                     binding.progressBar.visibility = View.GONE
                 }
-                // getting the error
+            }
+        }
+    }
 
-                val error = when {
-                    loadState.prepend is LoadState.Error -> loadState.prepend as LoadState.Error
-                    loadState.append is LoadState.Error -> loadState.append as LoadState.Error
-                    loadState.refresh is LoadState.Error -> loadState.refresh as LoadState.Error
-                    else -> null
+    private fun fillCategories() {
+        val countriesListAdapter: ArrayAdapter<String> = object :
+            ArrayAdapter<String>(
+                this@HomeActivity,
+                R.layout.text_spinner,
+                onBoardingViewModel.getCategorieslist()
+            ) {
+
+            override fun isEnabled(position: Int): Boolean {
+                return position != 0
+            }
+
+            override fun getDropDownView(
+                position: Int,
+                convertView: View?,
+                parent: ViewGroup
+            ): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                val tv = view as TextView
+                if (position == 0) {
+                    // Set the hint text color gray
+                    tv.setTextColor(Color.parseColor("#000000"))
+                } else {
+                    tv.setTextColor(Color.parseColor("#000000"))
                 }
-                Log.e("error",error.toString())
-                error?.let {
-                    Toast.makeText(this, it.error.message, Toast.LENGTH_LONG).show()
+                return view
+            }
+        }
+
+        // Drop down layout style
+        countriesListAdapter.setDropDownViewResource(R.layout.text_spinner)
+
+        // attaching data adapter to spinner
+        binding.spCategories.adapter = countriesListAdapter
+        binding.spCategories.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                if (position != 0) {
+                    categoryName = onBoardingViewModel.getCategorieslist()[position]
                 }
             }
 
+            override fun onNothingSelected(parent: AdapterView<*>?) {
 
+            }
+        }
+        if (sharedPrefManager!!.getUserDate().firstCategory != "") {
+            val spinnerPosition: Int =
+                countriesListAdapter.getPosition(sharedPrefManager!!.getUserDate().firstCategory)
+            binding.spCategories.setSelection(spinnerPosition)
         }
     }
+
 }
