@@ -1,6 +1,7 @@
 package com.codevalley.itworxeducationtask.models.articlesModel
 
+import androidx.room.ColumnInfo
+
 data class Source(
-    val id: Any,
-    val name: String
+    @ColumnInfo(name = "name")  val name: String
 )

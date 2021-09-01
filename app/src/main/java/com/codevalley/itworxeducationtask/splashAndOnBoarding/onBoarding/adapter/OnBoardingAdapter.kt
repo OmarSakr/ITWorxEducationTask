@@ -9,11 +9,11 @@ import com.codevalley.itworxeducationtask.databinding.ItemCategoriesBinding
 import java.util.ArrayList
 
 class OnBoardingAdapter(
-    context: Context, var chosenList: MutableList<String>
+    context: Context, private var chosenList: MutableList<String>
 ) : RecyclerView.Adapter<OnBoardingAdapter.ViewHolder>() {
 
-    var itemsList: ArrayList<String>? = null
-    var layoutInflater: LayoutInflater? = null
+    private var itemsList: ArrayList<String>? = null
+    private var layoutInflater: LayoutInflater? = null
 
     init {
         itemsList = ArrayList()

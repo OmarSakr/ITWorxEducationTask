@@ -16,6 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.codevalley.itworxeducationtask.R
 import com.codevalley.itworxeducationtask.databinding.ActivityHomeBinding
+import com.codevalley.itworxeducationtask.main.favourite.view.FavouriteActivity
+import com.codevalley.itworxeducationtask.main.favourite.viewModel.FavouriteViewModel
+import com.codevalley.itworxeducationtask.main.favourite.viewModel.FavouriteViewModelFactory
 import com.codevalley.itworxeducationtask.main.home.adapter.HomeAdapter
 import com.codevalley.itworxeducationtask.main.home.viewModel.HomeViewModel
 import com.codevalley.itworxeducationtask.main.searchResults.view.SearchResultsActivity
@@ -23,17 +26,20 @@ import com.codevalley.itworxeducationtask.splashAndOnBoarding.onBoarding.reposit
 import com.codevalley.itworxeducationtask.splashAndOnBoarding.onBoarding.viewModel.OnBoardingViewModel
 import com.codevalley.itworxeducationtask.splashAndOnBoarding.onBoarding.viewModel.OnBoardingViewModelFactory
 import com.codevalley.itworxeducationtask.splashAndOnBoarding.splash.view.SplashActivity
+import com.codevalley.itworxeducationtask.utils.AppController
 import com.codevalley.itworxeducationtask.utils.ParentClass
 import kotlinx.coroutines.flow.collectLatest
 
 class HomeActivity : ParentClass() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var homeViewModel: HomeViewModel
+
     private lateinit var homeAdapter: HomeAdapter
     private var called = false
     private var categoryName = ""
     private lateinit var onBoardingViewModel: OnBoardingViewModel
     private lateinit var onBoardingRepository: OnBoardingRepository
+    private lateinit var favouriteViewModel: FavouriteViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,7 +81,8 @@ class HomeActivity : ParentClass() {
             }
         }
         binding.ivLike.setOnClickListener {
-
+            val intent = Intent(this@HomeActivity, FavouriteActivity::class.java)
+            startActivity(intent)
         }
         binding.ivSearch.setOnClickListener {
             if (TextUtils.isEmpty(binding.etSearch.text.toString())) {
@@ -93,10 +100,16 @@ class HomeActivity : ParentClass() {
 
     private fun initUi() {
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        dismiss_keyboard()
         onBoardingRepository = OnBoardingRepository()
         onBoardingViewModel = ViewModelProvider(
             this, OnBoardingViewModelFactory(onBoardingRepository)
         ).get(OnBoardingViewModel::class.java)
+
+        favouriteViewModel = ViewModelProvider(
+            this, FavouriteViewModelFactory((application as AppController).repository)
+        ).get(FavouriteViewModel::class.java)
+
         onBoardingViewModel.getCategories()
         fillCategories()
         getTopHeadlines(sharedPrefManager!!.getUserDate().firstCategory)
@@ -106,7 +119,7 @@ class HomeActivity : ParentClass() {
     }
 
     private fun initRecycler() {
-        homeAdapter = HomeAdapter(this)
+        homeAdapter = HomeAdapter(this, favouriteViewModel)
         val linearLayoutManager =
             LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         binding.rvHome.layoutManager = linearLayoutManager

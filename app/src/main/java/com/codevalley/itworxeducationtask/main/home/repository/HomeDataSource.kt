@@ -1,6 +1,5 @@
 package com.codevalley.itworxeducationtask.main.home.repository
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.codevalley.itworxeducationtask.models.articlesModel.Article

@@ -1,21 +1,29 @@
-package com.codevalley.itworxeducationtask
+package com.codevalley.itworxeducationtask.utils
 
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
-import android.os.Build
 import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
-import com.codevalley.itworxeducationtask.utils.ParentClass
+import com.codevalley.itworxeducationtask.main.favourite.repository.FavouriteRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import java.util.*
 
 
 class AppController : MultiDexApplication() {
 
-    var sharedPreferences_language: SharedPreferences? = null
+    private var sharedPreferencesLanguage: SharedPreferences? = null
+    private val applicationScope = CoroutineScope(SupervisorJob())
+
+
+    private val database by lazy { ArticleRoomDatabase.getDatabase(this,applicationScope) }
+    val repository by lazy { FavouriteRepository(database.articleDao()) }
+
     override fun onCreate() {
         super.onCreate()
-        sharedPreferences_language = getSharedPreferences("language", MODE_PRIVATE)
+        sharedPreferencesLanguage = getSharedPreferences("language", MODE_PRIVATE)
+
 
     }
 
@@ -30,7 +38,6 @@ class AppController : MultiDexApplication() {
         super.onConfigurationChanged(newConfig)
         setLocale()
     }
-
 
 
     //

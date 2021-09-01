@@ -1,6 +1,5 @@
 package com.codevalley.itworxeducationtask.main.home.adapter
 
-import android.app.DownloadManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -10,12 +9,13 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.codevalley.itworxeducationtask.databinding.ItemHomeBinding
+import com.codevalley.itworxeducationtask.main.favourite.viewModel.FavouriteViewModel
 import com.codevalley.itworxeducationtask.models.articlesModel.Article
 import com.codevalley.itworxeducationtask.utils.ParentClass
 
-class HomeAdapter(var context: Context) :
+class HomeAdapter(var context: Context, private var favouriteViewModel: FavouriteViewModel) :
     PagingDataAdapter<Article, HomeAdapter.ViewHolder>(DataDifferntiator) {
-    var layoutInflater: LayoutInflater? = null
+    private var layoutInflater: LayoutInflater? = null
 
     init {
         layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -31,6 +31,11 @@ class HomeAdapter(var context: Context) :
         holder.itemView.setOnClickListener {
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(datum?.url))
             context.startActivity(browserIntent)
+        }
+        holder.binding.tvAddToFavorite.setOnClickListener {
+            if (datum != null) {
+                favouriteViewModel.addToFavorite(datum)
+            }
         }
     }
 

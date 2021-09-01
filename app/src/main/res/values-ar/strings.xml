@@ -10,4 +10,5 @@
     <string name="searchSpecificTopic">ابحث عن موضوع</string>
     <string name="addToFavorite">اضف للمفضلة</string>
     <string name="searchResults">نتائج البحث</string>
+    <string name="favourite">المفضلة</string>
 </resources>
